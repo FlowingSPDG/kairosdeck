@@ -1,4 +1,4 @@
-module github.com/FlowingSPDG/kairosdeck
+module github.com/FlowingSPDG/kairosdeck/Source/backend
 
 go 1.23.1
 

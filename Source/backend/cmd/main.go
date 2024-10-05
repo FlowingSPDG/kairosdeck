@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/FlowingSPDG/kairosdeck/handlers"
+	"github.com/FlowingSPDG/kairosdeck/Source/backend/handlers"
 	"github.com/FlowingSPDG/streamdeck"
 )
 

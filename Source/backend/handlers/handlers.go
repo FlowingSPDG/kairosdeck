@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	"github.com/FlowingSPDG/kairosdeck/pi"
+	"github.com/FlowingSPDG/kairosdeck/Source/backend/pi"
 	"github.com/FlowingSPDG/streamdeck"
 )
 

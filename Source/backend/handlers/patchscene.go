@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/FlowingSPDG/kairos-go"
-	"github.com/FlowingSPDG/kairosdeck/pi"
+	"github.com/FlowingSPDG/kairosdeck/Source/backend/pi"
 	"github.com/FlowingSPDG/streamdeck"
 
 	"golang.org/x/xerrors"
