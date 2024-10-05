@@ -1,0 +1,43 @@
+{
+    "Actions": [
+      {
+        "Name": "Patch Scene",
+        "States": [
+          {
+            "Image": "images/icon",
+            "TitleAlignment": "middle",
+            "FontSize": "24"
+          }
+        ],
+        "PropertyInspectorPath": "inspector/index.html",
+        "SupportedInMultiActions": true,
+        "Tooltip": "Patch scene",
+        "UUID": "dev.flowingspdg.kairos.patchScene",
+        "Icon": "images/icon" 
+      }
+    ],
+    "SDKVersion": 2,
+    "Author": "Shugo Kawamura", 
+    "Category": "Kairos [FlowingSPDG]",
+    "CategoryIcon" :"images/icon", 
+    "CodePath": "kairosdeck.exe", 
+    "CodePathMac": "kairosdeck", 
+    "Description": "Un-official Panasonic Kairos Integration Plugin.", 
+    "Name": "Kairos [FlowingSPDG]", 
+    "Icon": "images/icon", 
+    "URL": "https://github.com/FlowingSPDG/kairosdeck", 
+    "Version": "0.0.1",
+    "OS": [
+      {
+          "Platform": "windows", 
+          "MinimumVersion" : "10"
+      },
+      {
+        "Platform": "mac", 
+        "MinimumVersion" : "10.11"
+      }
+    ],
+    "Software": {
+      "MinimumVersion" : "6.0"
+    }
+  }
