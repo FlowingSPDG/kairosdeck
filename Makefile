@@ -55,8 +55,8 @@ build-server:
 
 build: prepare build-pi build-server
 	$(CP) $(PIDIR) $(BUILDDIR)/inspector
-	$(CP) $(SRCDIR)/manifest.json $(BUILDDIR)
-#	$(CP) $(BACKENDDIR)/images $(BUILDDIR)
+	$(CP) $(SRCDIR)/*.json $(BUILDDIR)
+	$(CP) $(SRCDIR)/images $(BUILDDIR)
 
 distribute: build
 	@$(MKDIR) $(RELEASEDIR)
