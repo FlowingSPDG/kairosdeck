@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Kairos PatchMacro</title>
+    <link rel="stylesheet" href="sdpi.css">
+</head>
+
+<script src="sdtools.common.js"></script>
+
+<body>
+    <div class="sdpi-wrapper">
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Host(IP)</div>
+            <div class="sdpi-item-child">
+                <input id="host" value="localhost" class="sdProperty" onInput="setSettings()"></input>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Port number</div>
+            <div class="sdpi-item-child">
+                <input id="port" value="1234" class="sdProperty" onInput="setSettings()"></input>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">User</div>
+            <div class="sdpi-item-child">
+                <input id="user" value="Kairos" class="sdProperty" onInput="setSettings()"></input>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Password</div>
+            <div class="sdpi-item-child">
+                <input id="password" value="Kairos" class="sdProperty" onInput="setSettings()"></input>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Macro</div>
+            <div class="sdpi-item-child">
+                <select class="sdProperty sdList" id="macros" oninput="setSettings()" sdListTextProperty="name"
+                    sdListValueProperty="uuid" sdValueField="uuid"></select>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">State</div>
+            <div class="sdpi-item-child">
+                <input id="state" value="play" class="sdProperty" onInput="setSettings()"></input>
+            </div>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Refresh</div>
+            <div class="sdpi-item-child">
+                <button onclick="sendPayloadToPlugin({action:'refresh'})">REFRESH</button>
+            </div>
+        </div>
+
+</body>
+
+</html>

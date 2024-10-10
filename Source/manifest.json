@@ -1,7 +1,7 @@
 {
     "Actions": [
       {
-        "Name": "Patch Scene",
+        "Name": "Patch Macro",
         "States": [
           {
             "Image": "images/icon",
@@ -9,10 +9,10 @@
             "FontSize": "24"
           }
         ],
-        "PropertyInspectorPath": "inspector/index.html",
+        "PropertyInspectorPath": "inspector/patch_macro.html",
         "SupportedInMultiActions": true,
-        "Tooltip": "Patch scene",
-        "UUID": "dev.flowingspdg.kairos.patchScene",
+        "Tooltip": "Patch Macro",
+        "UUID": "dev.flowingspdg.kairos.patchMacro",
         "Icon": "images/icon" 
       }
     ],

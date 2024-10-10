@@ -4,7 +4,8 @@ GOFLAGS=--race
 
 MAKEFILE_DIR:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 BUILDDIR = $(MAKEFILE_DIR)$(APPNAME)
-SRCDIR = $(MAKEFILE_DIR)Source/backend
+SRCDIR = $(MAKEFILE_DIR)Source
+BACKENDDIR = $(SRCDIR)/backend
 PIDIR = $(MAKEFILE_DIR)Source/pi
 RELEASEDIR = Release
 
@@ -35,10 +36,10 @@ endif
 .DEFAULT_GOAL := build
 
 test:
-	cd $(SRCDIR) && go run $(GOFLAGS) cmd/main.go -port 12345 -pluginUUID 213 -registerEvent test -info "{\"application\":{\"language\":\"en\",\"platform\":\"mac\",\"version\":\"4.1.0\"},\"plugin\":{\"version\":\"1.1\"},\"devicePixelRatio\":2,\"devices\":[{\"id\":\"55F16B35884A859CCE4FFA1FC8D3DE5B\",\"name\":\"Device Name\",\"size\":{\"columns\":5,\"rows\":3},\"type\":0},{\"id\":\"B8F04425B95855CF417199BCB97CD2BB\",\"name\":\"Another Device\",\"size\":{\"columns\":3,\"rows\":2},\"type\":1}]}"
+	cd $(BACKENDDIR) && go run $(GOFLAGS) cmd/main.go -port 12345 -pluginUUID 213 -registerEvent test -info "{\"application\":{\"language\":\"en\",\"platform\":\"mac\",\"version\":\"4.1.0\"},\"plugin\":{\"version\":\"1.1\"},\"devicePixelRatio\":2,\"devices\":[{\"id\":\"55F16B35884A859CCE4FFA1FC8D3DE5B\",\"name\":\"Device Name\",\"size\":{\"columns\":5,\"rows\":3},\"type\":0},{\"id\":\"B8F04425B95855CF417199BCB97CD2BB\",\"name\":\"Another Device\",\"size\":{\"columns\":3,\"rows\":2},\"type\":1}]}"
 
 vet:
-	cd $(SRCDIR) && go vet
+	cd $(BACKENDDIR) && go vet
 
 prepare:
 	@$(MKDIR) $(BUILDDIR)
@@ -46,16 +47,16 @@ prepare:
 	@$(RM) ./$(RELEASEDIR)/*
 
 build-pi:
-	cd $(SRCDIR)/pi && npm run build
+#	cd $(SRCDIR)/pi && npm run build
 
 build-server:
-	cd $(SRCDIR)/cmd && GOOS=windows GOARCH=amd64 go build -o $(BUILDDIR)/kairosdeck.exe .
-	cd $(SRCDIR)/cmd && GOOS=darwin GOARCH=amd64 go build -o $(BUILDDIR)/kairosdeck .
+	cd $(BACKENDDIR)/cmd && GOOS=windows GOARCH=amd64 go build -o $(BUILDDIR)/kairosdeck.exe .
+	cd $(BACKENDDIR)/cmd && GOOS=darwin GOARCH=amd64 go build -o $(BUILDDIR)/kairosdeck .
 
 build: prepare build-pi build-server
-	$(CP) $(PIDIR)/dist $(BUILDDIR)/inspector
+	$(CP) $(PIDIR) $(BUILDDIR)/inspector
 	$(CP) $(SRCDIR)/manifest.json $(BUILDDIR)
-	$(CP) $(SRCDIR)/images $(BUILDDIR)
+#	$(CP) $(BACKENDDIR)/images $(BUILDDIR)
 
 distribute: build
 	@$(MKDIR) $(RELEASEDIR)
