@@ -38,7 +38,7 @@ func (h *Handlers) PatchMacroWillDisappear(ctx context.Context, client *streamde
 	client.LogMessage(ctx, msg)
 
 	h.settings.PatchMacroSettings.Delete(event.Context)
-	return client.SetSettings(ctx, map[string]any{})
+	return nil
 }
 
 func (h *Handlers) PatchMacroKeyDown(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
@@ -49,6 +49,7 @@ func (h *Handlers) PatchMacroKeyDown(ctx context.Context, client *streamdeck.Cli
 	if !ok {
 		return fmt.Errorf("couldn't find settings for context %v", event.Context)
 	}
+
 	msg = fmt.Sprintf("Context %s Keydown with settings :%v", event.Context, s)
 	client.LogMessage(ctx, msg)
 
@@ -87,42 +88,17 @@ func (h *Handlers) PatchMacroRefreshMacro(ctx context.Context, client *streamdec
 	}
 
 	kr := kairos.NewKairosRestClient(s.Host, fmt.Sprint(s.Port), s.User, s.Password)
-	macros, err := kr.GetMacros(ctx)
-	if err != nil {
-		return xerrors.Errorf("Failed to get Scenes() : %w", err)
+	macros, _ := kr.GetMacros(ctx)
+	if len(macros) != 0 {
+		s.Macros = macros
 	}
-	s.Macros = macros
 
 	if err := client.SetSettings(ctx, s); err != nil {
 		return xerrors.Errorf("Failed to save setting : %w", err)
 	}
 	h.settings.PatchMacroSettings.Store(event.Context, s)
 
-	return nil
-}
-
-func (h *Handlers) PatchMacroDidReceiveSettings(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
-	msg := fmt.Sprintf("Received settings for Context %s with payload :%s", event.Context, event.Payload)
-	client.LogMessage(ctx, msg)
-
-	p := streamdeck.DidReceiveSettingsPayload[pi.PatchMacroSetting]{}
-	if err := json.Unmarshal(event.Payload, &p); err != nil {
-		return xerrors.Errorf("Failed to Unmarshal JSON : %w", err)
-	}
-
-	kr := kairos.NewKairosRestClient(p.Settings.Host, fmt.Sprint(p.Settings.Port), p.Settings.User, p.Settings.Password)
-	macros, err := kr.GetMacros(ctx)
-	if err != nil {
-		return xerrors.Errorf("Failed to get Scenes() : %w", err)
-	}
-	p.Settings.Macros = macros
-
-	if err := client.SetSettings(ctx, p.Settings); err != nil {
-		return xerrors.Errorf("Failed to save setting : %w", err)
-	}
-	h.settings.PatchMacroSettings.Store(event.Context, &p.Settings)
-
-	msg = fmt.Sprintf("Settings for Context %s overwritten. payload :%s", event.Context, event.Payload)
+	msg := fmt.Sprintf("Settings for Context %s overwritten. payload :%s", event.Context, event.Payload)
 	client.LogMessage(ctx, msg)
 
 	return nil

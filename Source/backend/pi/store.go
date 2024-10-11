@@ -13,12 +13,12 @@ type SettingStore[T any] interface {
 
 func NewSettingStore[T any]() SettingStore[T] {
 	return &settingStore[T]{
-		m: xsync.MapOf[string, *T]{},
+		m: xsync.NewMapOf[string, *T](),
 	}
 }
 
 type settingStore[T any] struct {
-	m xsync.MapOf[string, *T]
+	m *xsync.MapOf[string, *T]
 }
 
 func (s *settingStore[T]) Store(key string, setting *T) {
