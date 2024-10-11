@@ -22,7 +22,7 @@
         <div class="sdpi-item">
             <div class="sdpi-item-label">Port number</div>
             <div class="sdpi-item-child">
-                <input id="port" value="1234" class="sdProperty" onInput="setSettings()"></input>
+                <input id="port" value="1234" class="sdProperty" onInput="setSettings()" disabled></input>
             </div>
         </div>
 
@@ -44,14 +44,14 @@
             <div class="sdpi-item-label">Macro</div>
             <div class="sdpi-item-child">
                 <select class="sdProperty sdList" id="macros" oninput="setSettings()" sdListTextProperty="name"
-                    sdListValueProperty="uuid" sdValueField="uuid"></select>
+                    sdListValueProperty="uuid" sdValueField="macro_uuid"></select>
             </div>
         </div>
 
         <div class="sdpi-item">
             <div class="sdpi-item-label">State</div>
             <div class="sdpi-item-child">
-                <input id="state" value="play" class="sdProperty" onInput="setSettings()"></input>
+                <input id="state" value="play" class="sdProperty" onInput="setSettings()" disabled></input>
             </div>
         </div>
 

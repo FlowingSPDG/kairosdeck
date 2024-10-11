@@ -1,8 +1,8 @@
 {
     "Description": "un-official Panasonic Kairos plugin for Stream Deck", 
     "Name": "Kairos Integration", 
-    "dev.flowingspdg.kairos.patch-scene": {
-      "Name": "Patch Scene", 
-      "Tooltip": "Patch Scene through HTTP API"
+    "dev.flowingspdg.kairos.patch-macro": {
+      "Name": "Patch Macro", 
+      "Tooltip": "Trigger Macro through HTTP API"
     }
   }
