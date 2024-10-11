@@ -101,7 +101,7 @@ func (h *Handlers) PatchMacroRefreshMacro(ctx context.Context, client *streamdec
 	return nil
 }
 
-func (h *Handlers) PatchMacroDidReceiveSetSettings(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+func (h *Handlers) PatchMacroDidReceiveSettings(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
 	msg := fmt.Sprintf("Received settings for Context %s with payload :%s", event.Context, event.Payload)
 	client.LogMessage(ctx, msg)
 

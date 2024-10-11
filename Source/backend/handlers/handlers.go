@@ -40,7 +40,7 @@ func SetupHandlers(ctx context.Context, params streamdeck.RegistrationParams) *H
 	actionPatchMacro.RegisterHandler(streamdeck.WillDisappear, h.PatchMacroWillDisappear)
 	actionPatchMacro.RegisterHandler(streamdeck.KeyDown, h.PatchMacroKeyDown)
 	actionPatchMacro.RegisterHandler(streamdeck.SendToPlugin, h.PatchMacroSendToPlugin)
-	actionPatchMacro.RegisterHandler(streamdeck.DidReceiveSettings, h.PatchMacroDidReceiveSetSettings)
+	actionPatchMacro.RegisterHandler(streamdeck.DidReceiveSettings, h.PatchMacroDidReceiveSettings)
 
 	return h
 }
