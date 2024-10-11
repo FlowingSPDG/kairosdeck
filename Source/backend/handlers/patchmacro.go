@@ -110,6 +110,20 @@ func (h *Handlers) PatchMacroDidReceiveSettings(ctx context.Context, client *str
 		return xerrors.Errorf("Failed to Unmarshal JSON : %w", err)
 	}
 
+	kr := kairos.NewKairosRestClient(p.Settings.Host, fmt.Sprint(p.Settings.Port), p.Settings.User, p.Settings.Password)
+	macros, err := kr.GetMacros(ctx)
+	if err != nil {
+		return xerrors.Errorf("Failed to get Scenes() : %w", err)
+	}
+	p.Settings.Macros = macros
+
+	if err := client.SetSettings(ctx, p.Settings); err != nil {
+		return xerrors.Errorf("Failed to save setting : %w", err)
+	}
 	h.settings.PatchMacroSettings.Store(event.Context, &p.Settings)
+
+	msg = fmt.Sprintf("Settings for Context %s overwritten. payload :%s", event.Context, event.Payload)
+	client.LogMessage(ctx, msg)
+
 	return nil
 }
