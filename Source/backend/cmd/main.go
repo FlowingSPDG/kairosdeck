@@ -21,7 +21,6 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	client := streamdeck.NewClient(ctx, params)
-	h := handlers.SetupHandlers(client)
+	h := handlers.SetupHandlers(ctx, params)
 	return h.Run(ctx)
 }

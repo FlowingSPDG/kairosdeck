@@ -12,7 +12,7 @@
         "PropertyInspectorPath": "inspector/patch_macro.html",
         "SupportedInMultiActions": true,
         "Tooltip": "Patch Macro",
-        "UUID": "dev.flowingspdg.kairos.patchMacro",
+        "UUID": "dev.flowingspdg.kairos.patch-macro",
         "Icon": "images/icon" 
       }
     ],

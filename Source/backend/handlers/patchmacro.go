@@ -13,9 +13,12 @@ import (
 )
 
 func (h *Handlers) PatchMacroWillAppear(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+	msg := fmt.Sprintf("Context %s received WillAppear with payload :%s", event.Context, event.Payload)
+	client.LogMessage(ctx, msg)
+
 	p := streamdeck.WillAppearPayload[pi.PatchMacroSetting]{}
 	if err := json.Unmarshal(event.Payload, &p); err != nil {
-		return err
+		return xerrors.Errorf("Failed to Unmarshal JSON : %w", err)
 	}
 
 	if p.Settings.IsDefault() {
@@ -26,19 +29,28 @@ func (h *Handlers) PatchMacroWillAppear(ctx context.Context, client *streamdeck.
 		return xerrors.Errorf("Failed to save setting : %w", err)
 	}
 	h.settings.PatchMacroSettings.Store(event.Context, &p.Settings)
+
 	return nil
 }
 
 func (h *Handlers) PatchMacroWillDisappear(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+	msg := fmt.Sprintf("Deleting context %s", event.Context)
+	client.LogMessage(ctx, msg)
+
 	h.settings.PatchMacroSettings.Delete(event.Context)
 	return client.SetSettings(ctx, map[string]any{})
 }
 
 func (h *Handlers) PatchMacroKeyDown(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+	msg := fmt.Sprintf("Context %s Keydown", event.Context)
+	client.LogMessage(ctx, msg)
+
 	s, ok := h.settings.PatchMacroSettings.Load(event.Context)
 	if !ok {
 		return fmt.Errorf("couldn't find settings for context %v", event.Context)
 	}
+	msg = fmt.Sprintf("Context %s Keydown with settings :%v", event.Context, s)
+	client.LogMessage(ctx, msg)
 
 	kr := kairos.NewKairosRestClient(s.Host, fmt.Sprint(s.Port), s.User, s.Password)
 	if err := kr.PatchMacro(ctx, s.MacroUUID, s.State); err != nil {
@@ -52,7 +64,9 @@ func (h *Handlers) PatchMacroKeyDown(ctx context.Context, client *streamdeck.Cli
 }
 
 func (h *Handlers) PatchMacroSendToPlugin(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
-	client.LogMessage(ctx, "SendToPlugin:"+string(event.Payload))
+	msg := fmt.Sprintf("SendToPlugin for Context %s with payload :%s", event.Context, event.Payload)
+	client.LogMessage(ctx, msg)
+
 	p := pi.ToPluginPayload{}
 	if err := json.Unmarshal(event.Payload, &p); err != nil {
 		return err
@@ -84,5 +98,18 @@ func (h *Handlers) PatchMacroRefreshMacro(ctx context.Context, client *streamdec
 	}
 	h.settings.PatchMacroSettings.Store(event.Context, s)
 
+	return nil
+}
+
+func (h *Handlers) PatchMacroDidReceiveSetSettings(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+	msg := fmt.Sprintf("Received settings for Context %s with payload :%s", event.Context, event.Payload)
+	client.LogMessage(ctx, msg)
+
+	p := streamdeck.DidReceiveSettingsPayload[pi.PatchMacroSetting]{}
+	if err := json.Unmarshal(event.Payload, &p); err != nil {
+		return xerrors.Errorf("Failed to Unmarshal JSON : %w", err)
+	}
+
+	h.settings.PatchMacroSettings.Store(event.Context, &p.Settings)
 	return nil
 }

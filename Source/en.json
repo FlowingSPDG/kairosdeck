@@ -1,7 +1,7 @@
 {
     "Description": "un-official Panasonic Kairos plugin for Stream Deck", 
     "Name": "Kairos Integration", 
-    "dev.flowingspdg.kairos.patchScene": {
+    "dev.flowingspdg.kairos.patch-scene": {
       "Name": "Patch Scene", 
       "Tooltip": "Patch Scene through HTTP API"
     }
