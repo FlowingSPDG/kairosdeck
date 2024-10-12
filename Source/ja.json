@@ -1,0 +1,8 @@
+{
+    "Description": "Panasonic Kairosを制御するための非公式プラグインです。", 
+    "Name": "Kairos Integration", 
+    "dev.flowingspdg.kairos.patch-macro": {
+      "Name": "Patch Macro", 
+      "Tooltip": "HTTP API経由でMacroに対してPATCHリクエストを送信します。"
+    }
+  }
