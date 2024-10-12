@@ -64,6 +64,18 @@ func (h *Handlers) PatchMacroKeyDown(ctx context.Context, client *streamdeck.Cli
 	return nil
 }
 
+func (h *Handlers) PatchMacroSetSettings(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
+	msg := fmt.Sprintf("Context %s received SetSettings from PropertyInspector with payload :%s", event.Context, event.Payload)
+	client.LogMessage(ctx, msg)
+
+	p := streamdeck.DidReceiveSettingsPayload[pi.PatchMacroSetting]{}
+	if err := json.Unmarshal(event.Payload, &p); err != nil {
+		return xerrors.Errorf("Failed to Unmarshal JSON : %w", err)
+	}
+	h.settings.PatchMacroSettings.Store(event.Context, &p.Settings)
+	return nil
+}
+
 func (h *Handlers) PatchMacroSendToPlugin(ctx context.Context, client *streamdeck.Client, event streamdeck.Event) error {
 	msg := fmt.Sprintf("SendToPlugin for Context %s with payload :%s", event.Context, event.Payload)
 	client.LogMessage(ctx, msg)
@@ -92,11 +104,6 @@ func (h *Handlers) PatchMacroRefreshMacro(ctx context.Context, client *streamdec
 	if len(macros) != 0 {
 		s.Macros = macros
 	}
-
-	if err := client.SetSettings(ctx, s); err != nil {
-		return xerrors.Errorf("Failed to save setting : %w", err)
-	}
-	h.settings.PatchMacroSettings.Store(event.Context, s)
 
 	msg := fmt.Sprintf("Settings for Context %s overwritten. payload :%s", event.Context, event.Payload)
 	client.LogMessage(ctx, msg)
