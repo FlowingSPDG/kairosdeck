@@ -101,9 +101,16 @@ func (h *Handlers) PatchMacroRefreshMacro(ctx context.Context, client *streamdec
 
 	kr := kairos.NewKairosRestClient(s.Host, fmt.Sprint(s.Port), s.User, s.Password)
 	macros, _ := kr.GetMacros(ctx)
-	if len(macros) != 0 {
-		s.Macros = macros
+	if len(macros) == 0 {
+		// failed to get macro...
+		return nil
 	}
+	s.Macros = macros
+
+	if err := client.SetSettings(ctx, s); err != nil {
+		return xerrors.Errorf("Failed to save setting : %w", err)
+	}
+	h.settings.PatchMacroSettings.Store(event.Context, s)
 
 	msg := fmt.Sprintf("Settings for Context %s overwritten. payload :%s", event.Context, event.Payload)
 	client.LogMessage(ctx, msg)
